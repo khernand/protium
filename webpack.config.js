@@ -1,31 +1,30 @@
 var webpack = require('webpack')
-var fs = require('fs')
 var path = require('path')
+var fs = require('fs')
 var nodeExternals = require('webpack-node-externals')
 
-module.exports = {
+var config = {
   entry: {
-    index: ['./src/index'],
-    router: ['./src/router'],
-    devtools: ['./src/devtools'],
-    server: ['./src/renderer'],
+    index: './src/index',
+    router: './src/router',
+    devtools: './src/devtools',
+    server: './src/renderer',
     'fetch-client': ['./src/fetch-client']
   },
-  output: {
-    path: path.resolve('./'),
-    filename: '[name].js',
-    libraryTarget: 'commonjs'
-  },
   module: {
-    loaders: [
-      { 
-        test: /\.jsx?$/, 
-        include: __dirname + '/src', 
-        loader: 'babel-loader' 
+    rules: [
+      {
+        test: /\.js$/,
+        use: ['babel-loader'],
+        include: path.join(__dirname, '/src')
       }
     ]
   },
-  externals: [ 
+  output: {
+    filename: '[name].js',
+    libraryTarget: 'commonjs'
+  },
+  externals: [
     nodeExternals()
   ],
   target: 'node',
@@ -40,3 +39,5 @@ module.exports = {
   },
   devtool: 'source-map'
 }
+
+module.exports = config
